@@ -5,34 +5,22 @@ import Scroll from "../components/Scroll";
 import ErrorBoundary from '../components/ErrorBoundary';
 
 function App () {
-    // constructor(){
-    //     super()
-    //     this.state = {
-    //         robots: [],
-    //         searchfield:''
-    //     }
-    // }
-
     // Declare states
     const [robots, setRobots] = useState([]);
     const [searchfield, setSearchfield] = useState('');
+    const [count, setCount] = useState(0);
     
     const onsearchChange = (event) => {
         setSearchfield(event.target.value)
     }
 
-    // componentDidMount(){
-    //     fetch('https://jsonplaceholder.typicode.com/users')
-    //         .then( response => response.json() )
-    //         .then( users => this.setState({robots: users }));
-    // }
     useEffect( ()=> {
         fetch("https://jsonplaceholder.typicode.com/users")
             .then(response => response.json())
             .then(users => {setRobots(users)})
-    },[])
+        console.log(count);
+    },[count]) // only run if "count" changes
     
-    // const { robots, searchfield } = this.state; --> already have access to the state, no longer need to access it through this.state
     const filteredRobots = robots.filter( robot => {
         return robot.name.toLowerCase().includes(searchfield.toLowerCase());
     })
@@ -42,6 +30,7 @@ function App () {
         (
             <div>
                 <h1>Robo Friends</h1>
+                <button onClick={()=>{setCount(count+1)}}>Click me</button>
                 <SearchBox searchChange={onsearchChange}/>
                 <Scroll>
                     <ErrorBoundary>
