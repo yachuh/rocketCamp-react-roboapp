@@ -26,11 +26,17 @@ function App () {
     //         .then( response => response.json() )
     //         .then( users => this.setState({robots: users }));
     // }
+    useEffect( ()=> {
+        fetch("https://jsonplaceholder.typicode.com/users")
+            .then(response => response.json())
+            .then(users => {setRobots(users)})
+    },[])
     
     // const { robots, searchfield } = this.state; --> already have access to the state, no longer need to access it through this.state
     const filteredRobots = robots.filter( robot => {
         return robot.name.toLowerCase().includes(searchfield.toLowerCase());
     })
+
     return !robots.length ?
         <h1 className="tc">Loading</h1> :
         (
